@@ -7,5 +7,11 @@ module.exports = {
 
     create(newSupplier = {}) {
         return Model.create(newSupplier)
+    },
+
+    async findById(id) {
+       const supplierFound = await Model.findOne({ where: { id } })
+       if(!supplierFound) throw new Error("Fornecedor não encontrado")
+       return supplierFound
     }
 }

@@ -14,4 +14,15 @@ router.post("/", async (req, res) => {
    res.status(201).json(supplier)
 })
 
+router.get("/:id", async (req, res) => {
+   try {
+      const { id } = req.params
+      const supplier = new Supplier({ id })
+      await supplier.load()
+      res.json(supplier)
+   } catch (error) {
+      res.status(400).json({ msg: error.message })
+   }
+})
+
 module.exports = router

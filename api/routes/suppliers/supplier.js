@@ -26,6 +26,11 @@ class Supplier {
     const result = await suppliersTable.create({ empresa, categoria, email });
     Object.assign(this, result.dataValues)
   }
+
+  async load() {
+    const result = await suppliersTable.findById(this.id)
+    Object.assign(this, result.dataValues)
+  }
 }
 
 module.exports = Supplier;
