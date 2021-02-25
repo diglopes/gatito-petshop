@@ -1,0 +1,26 @@
+{
+  "name": "gatito-petshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diglopes/gatito-petshop.git"
+  },
+  "keywords": [],
+  "author": "Diego Lopes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diglopes/gatito-petshop/issues"
+  },
+  "homepage": "https://github.com/diglopes/gatito-petshop#readme",
+  "dependencies": {
+    "config": "^3.3.3",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0"
+  }
+}

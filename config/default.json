@@ -1,0 +1,11 @@
+{
+    "App": {
+        "port": 3000
+    },
+    "Mysql": {
+        "database": "petshop",
+        "user": "root",
+        "pass": "mysql",
+        "host": "localhost"
+    }
+}
