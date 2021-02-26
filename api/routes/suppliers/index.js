@@ -4,52 +4,52 @@ const Supplier = require("./supplier")
 
 router.get("/", async (req, res) => {
    const result = await suppliersTable.index()
-   res.json(result)
+   res.status(200).json(result)
 })
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
    try {
       const data = req.body
       const supplier = new Supplier(data)
       await supplier.create()
       res.status(201).json(supplier)
    } catch (error) {
-      res.status(400).json({ msg: error.message })
+     next(error)
    }
 })
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
    try {
       const { id } = req.params
       const supplier = new Supplier({ id })
       await supplier.load()
       res.json(supplier)
    } catch (error) {
-      res.status(400).json({ msg: error.message })
+      next(error)
    }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res, next) => {
    try {
       const { id } = req.params
       const data = req.body
       const supplier = new Supplier({ id, ...data })
       await supplier.update()
-      res.end()
+      res.status(204).end()
    } catch (error) {
-      res.status(400).json({ msg: error.message })
+      next(error)
    }
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
    try {
       const { id } = req.params
       const supplier = new Supplier({ id })
       await supplier.load()
       await supplier.remove()
-      res.end()
+      res.status(204).end()
    } catch (error) {
-      res.status(400).json({ msg: error.message })
+      next(error)
    }
 })
 

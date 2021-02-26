@@ -1,3 +1,4 @@
+const NotFoundError = require("../../errors/not-found")
 const Model = require("./table-model")
 
 module.exports = {
@@ -11,7 +12,8 @@ module.exports = {
 
     async findById(id) {
        const supplierFound = await Model.findOne({ where: { id } })
-       if(!supplierFound) throw new Error("Fornecedor não encontrado")
+       if(!supplierFound) throw new NotFoundError("Fornecedor não encontrado")
+       
        return supplierFound
     },
 
