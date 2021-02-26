@@ -1,10 +1,13 @@
+const InsufficientDataError = require("../errors/insufficient-data");
+const InvalidFieldError = require("../errors/invalid-field");
 const NotFoundError = require("../errors/not-found");
 
 module.exports = (err, req, res, next) => {
-    if (err instanceof NotFoundError) {
-      res.status(404);
-    } else {
-      res.status(400);
+    let status = 500
+    if (err instanceof NotFoundError) status = 404
+    if (err instanceof InvalidFieldError || err instanceof InsufficientDataError) {
+      status = 400
     }
-    res.json({ error: { msg: err.message, id: err.idError }});
+
+    res.status(status).json({ error: { msg: err.message, id: err.idError }});
 }

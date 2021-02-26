@@ -1,3 +1,5 @@
+const InsufficientDataError = require("../../errors/insufficient-data");
+const InvalidFieldError = require("../../errors/invalid-field");
 const suppliersTable = require("./table");
 
 class Supplier {
@@ -44,7 +46,7 @@ class Supplier {
       }
     })
     if(!Object.keys(dataToUpdate).length) {
-      throw new Error("Não foram fornecidos dados válidos para atualizar o registro")
+      throw new InsufficientDataError("Não foram fornecidos dados válidos para atualizar o registro")
     }
     await suppliersTable.update(this.id, dataToUpdate)
   }
@@ -58,7 +60,7 @@ class Supplier {
     requiredFields.forEach(field => {
       const value = this[field]
       if(!value || typeof value !== "string") {
-        throw new Error(`O campo '${field}' está inválido`)
+        throw new InvalidFieldError(field)
       }
     })
   }
