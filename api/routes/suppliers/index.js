@@ -8,10 +8,14 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-   const data = req.body
-   const supplier = new Supplier(data)
-   await supplier.create()
-   res.status(201).json(supplier)
+   try {
+      const data = req.body
+      const supplier = new Supplier(data)
+      await supplier.create()
+      res.status(201).json(supplier)
+   } catch (error) {
+      res.status(400).json({ msg: error.message })
+   }
 })
 
 router.get("/:id", async (req, res) => {

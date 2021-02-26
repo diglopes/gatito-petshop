@@ -22,6 +22,7 @@ class Supplier {
   }
 
   async create() {
+    this._validate()
     const { empresa, categoria, email } = this
     const result = await suppliersTable.create({ empresa, categoria, email });
     Object.assign(this, result.dataValues)
@@ -50,6 +51,16 @@ class Supplier {
 
   remove() {
     return suppliersTable.remove(this.id)
+  }
+
+  _validate() {
+    const requiredFields = ["empresa", "email", "categoria"]
+    requiredFields.forEach(field => {
+      const value = this[field]
+      if(!value || typeof value !== "string") {
+        throw new Error(`O campo '${field}' está inválido`)
+      }
+    })
   }
 }
 
