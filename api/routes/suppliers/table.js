@@ -13,5 +13,9 @@ module.exports = {
        const supplierFound = await Model.findOne({ where: { id } })
        if(!supplierFound) throw new Error("Fornecedor não encontrado")
        return supplierFound
+    },
+
+    update(id, data) {
+        return Model.update(data, { where: { id } })
     }
 }

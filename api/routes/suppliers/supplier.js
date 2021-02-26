@@ -31,6 +31,22 @@ class Supplier {
     const result = await suppliersTable.findById(this.id)
     Object.assign(this, result.dataValues)
   }
+
+  async update() {
+    await suppliersTable.findById(this.id)
+    const fields = ["empresa", "email", "categoria"]
+    const dataToUpdate = {}
+    fields.forEach(field => {
+      const value = this[field]
+      if(value && typeof value === "string") {
+        dataToUpdate[field] = value
+      }
+    })
+    if(!Object.keys(dataToUpdate).length) {
+      throw new Error("Não foram fornecidos dados válidos para atualizar o registro")
+    }
+    await suppliersTable.update(this.id, dataToUpdate)
+  }
 }
 
 module.exports = Supplier;
