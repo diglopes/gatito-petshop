@@ -3,7 +3,7 @@ const Model = require("./table-model")
 
 module.exports = {
     index() {
-        return Model.findAll()
+        return Model.findAll({ raw: true })
     },
 
     create(newSupplier = {}) {

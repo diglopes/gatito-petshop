@@ -7,17 +7,35 @@ class Serializer {
     return JSON.stringify(data);
   }
 
+  _filterItem(data) {
+    const filteredData = {};
+    this.publicFields.forEach((field) => {
+      if (data.hasOwnProperty(field)) {
+        filteredData[field] = data[field];
+      }
+    });
+    return filteredData;
+  }
+
+  _filter(data) {
+    if(Array.isArray(data)) {
+      return data.map(this._filterItem.bind(this))
+    } else {
+      return this._filterItem(data);
+    }
+  }
+
   serialize(data) {
+    const filteredData = this._filter(data)
     if (
       this.contentType === contentTypeEnum.JSON ||
       this.contentType === contentTypeEnum.ALL
     ) {
-      return this._json(data);
+      return this._json(filteredData);
     }
 
     throw new UnsupportedValueError(this.contentType, headersEnum.ACCEPT);
   }
 }
 
-module.exports = Serializer
-
+module.exports = Serializer;
