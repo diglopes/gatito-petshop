@@ -2,6 +2,8 @@ const InsufficientDataError = require("../errors/insufficient-data");
 const InvalidFieldError = require("../errors/invalid-field");
 const NotFoundError = require("../errors/not-found");
 const UnsupportedValueError = require("../errors/unsupported-value");
+const headersEnum = require("../utils/headers-enum");
+const ErrorSerializer = require("../utils/response/error-serializer");
 
 module.exports = (err, req, res, next) => {
     let status = 500
@@ -10,6 +12,9 @@ module.exports = (err, req, res, next) => {
       status = 400
     }
     if(err instanceof UnsupportedValueError) status = 406
-
-    res.status(status).json({ error: { msg: err.message, id: err.idError }});
+    const serializer = new ErrorSerializer(
+      res.getHeader(headersEnum.CONTENT_TYPE)
+    )
+    res.status(status)
+    res.send(serializer.serialize({ id: err.id, msg: err.message }));
 }

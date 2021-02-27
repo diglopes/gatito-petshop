@@ -1,6 +1,6 @@
-const UnsupportedValueError = require("../errors/unsupported-value");
-const contentTypeEnum = require("./content-type-enum");
-const headersEnum = require("./headers-enum");
+const UnsupportedValueError = require("../../errors/unsupported-value");
+const contentTypeEnum = require("../content-type-enum");
+const headersEnum = require("../headers-enum");
 
 class Serializer {
   _json(data) {
@@ -35,6 +35,14 @@ class Serializer {
     }
 
     throw new UnsupportedValueError(this.contentType, headersEnum.ACCEPT);
+  }
+
+  addPublicFields(fields) {
+    if(Array.isArray(fields)) {
+      this.publicFields.push(...fields)
+    } else {
+      this.publicFields.push(fields)
+    }
   }
 }
 
