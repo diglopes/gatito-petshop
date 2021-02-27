@@ -1,4 +1,5 @@
 module.exports = {
     ALL: "*/*",
-    JSON: "application/json"
+    JSON: "application/json",
+    XML: "application/xml"
 }

@@ -1,10 +1,25 @@
 const UnsupportedValueError = require("../../errors/unsupported-value");
 const contentTypeEnum = require("../content-type-enum");
 const headersEnum = require("../headers-enum");
+const json2xml = require("jsontoxml")
 
 class Serializer {
+  constructor() {
+    this.xmlWrapperTag = "data"
+    this.xmlItemTag = "item"
+  }
+
   _json(data) {
     return JSON.stringify(data);
+  }
+
+  _xml(data) {
+    let tag = this.xmlItemTag
+    if(Array.isArray(data) ) {
+      tag = this.xmlWrapperTag
+      data = data.map(item => ({ [this.xmlItemTag]: item }))
+    }
+    return json2xml({ [tag]: data })
   }
 
   _filterItem(data) {
@@ -18,30 +33,32 @@ class Serializer {
   }
 
   _filter(data) {
-    if(Array.isArray(data)) {
-      return data.map(this._filterItem.bind(this))
+    if (Array.isArray(data)) {
+      return data.map(this._filterItem.bind(this));
     } else {
       return this._filterItem(data);
     }
   }
 
   serialize(data) {
-    const filteredData = this._filter(data)
-    if (
-      this.contentType === contentTypeEnum.JSON ||
-      this.contentType === contentTypeEnum.ALL
-    ) {
+    const filteredData = this._filter(data);
+    const { JSON, ALL, XML } = contentTypeEnum;
+    if (this.contentType === JSON || this.contentType === ALL) {
       return this._json(filteredData);
+    }
+
+    if (this.contentType === XML) {
+      return this._xml(filteredData);
     }
 
     throw new UnsupportedValueError(this.contentType, headersEnum.ACCEPT);
   }
 
   addPublicFields(fields) {
-    if(Array.isArray(fields)) {
-      this.publicFields.push(...fields)
+    if (Array.isArray(fields)) {
+      this.publicFields.push(...fields);
     } else {
-      this.publicFields.push(fields)
+      this.publicFields.push(fields);
     }
   }
 }

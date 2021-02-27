@@ -16,5 +16,5 @@ module.exports = (err, req, res, next) => {
       res.getHeader(headersEnum.CONTENT_TYPE)
     )
     res.status(status)
-    res.send(serializer.serialize({ id: err.id, msg: err.message }));
+    res.send(serializer.serialize({ id: err.idError, msg: err.message }));
 }

@@ -5,6 +5,8 @@ class ErrorSerializer extends Serializer {
         super()
         this.contentType = contentType
         this.publicFields = ["id", "msg"]
+        this.xmlWrapperTag = "errors"
+        this.xmlItemTag = "error"
     }
 }
 

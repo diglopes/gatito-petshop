@@ -5,6 +5,8 @@ class SuppliersSerializer extends Serializer {
         super()
         this.contentType = contentType
         this.publicFields = ["id", "empresa", "categoria"]
+        this.xmlWrapperTag = "fornecedores"
+        this.xmlItemTag = "fornecedor"
     }
 }
 
