@@ -11,6 +11,10 @@ class ProductsDAO {
       where: { idFornecedor: supplierId },
     });
   }
+
+  create(newProduct = {}) {
+    return this.model.create(newProduct)
+  }
 }
 
 module.exports = ProductsDAO;
