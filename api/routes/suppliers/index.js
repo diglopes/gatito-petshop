@@ -3,6 +3,7 @@ const suppliersTable = require("./table");
 const Supplier = require("./supplier");
 const SuppliersSerializer = require("../../utils/response/suppliers-serializer");
 const headersEnum = require("../../utils/headers-enum");
+const productRoutes = require("./products")
 
 router.get("/", async (req, res) => {
   const result = await suppliersTable.index();
@@ -70,5 +71,7 @@ router.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+router.use('/:id/produtos', productRoutes)
 
 module.exports = router;
