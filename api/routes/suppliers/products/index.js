@@ -1,6 +1,7 @@
 const router = require("express").Router({ mergeParams: true });
 const ProductsDAO = require("./products-dao");
-const Product = require("./product")
+const Product = require("./product");
+const reviewRoutes = require("./reviews")
 
 router.get("/", async (req, res) => {
   const supplierId = req.params.idFornecedor;
@@ -21,5 +22,7 @@ router.post("/", async (req, res) => {
     next(error);
   }
 });
+
+router.use("/:idProduto/avaliacoes", reviewRoutes)
 
 module.exports = router;

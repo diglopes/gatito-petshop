@@ -12,7 +12,7 @@ const columns = {
         allowNull: false
     },
     nota: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
         allowNull: false,
         min: 0,
         max: 5
