@@ -72,6 +72,6 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
-router.use('/:id/produtos', productRoutes)
+router.use('/:idFornecedor/produtos', productRoutes)
 
 module.exports = router;
