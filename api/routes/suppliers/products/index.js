@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   res.send(serializer.serialize(products));
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const supplierId = req.params.idFornecedor;
     const { estoque = 0, preco, titulo } = req.body

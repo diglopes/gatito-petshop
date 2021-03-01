@@ -1,3 +1,4 @@
+const InvalidFieldError = require("../../../errors/invalid-field")
 const ProductsDAO = require("./products-dao")
 
 const productDAO = new ProductsDAO()
@@ -25,7 +26,21 @@ class Product {
         })
     }
 
+    _validate() {
+        const { titulo, preco, estoque } = this
+        if(!titulo || typeof titulo !== "string") {
+            throw new InvalidFieldError("titulo")
+        }
+        if(!preco || typeof preco !== "number") {
+            throw new InvalidFieldError("preco")
+        }
+        if(typeof estoque !== "number") {
+            throw new InvalidFieldError("estoque")
+        }
+    }
+
     async create() {
+        this._validate()
         const { titulo, preco, idFornecedor, estoque } = this
         const result = await productDAO.create({ titulo, preco, idFornecedor, estoque})
         Object.assign(this, result.dataValues)
