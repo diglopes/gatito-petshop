@@ -1,13 +1,16 @@
 const router = require("express").Router({ mergeParams: true });
 const ProductsDAO = require("./products-dao");
 const Product = require("./product");
-const reviewRoutes = require("./reviews")
+const reviewRoutes = require("./reviews");
+const ProductsSerializer = require("../../../utils/response/products-serializer");
+const headersEnum = require("../../../utils/headers-enum");
 
 router.get("/", async (req, res) => {
   const supplierId = req.params.idFornecedor;
   const dao = new ProductsDAO();
   const products = await dao.index(supplierId);
-  res.send(JSON.stringify(products));
+  const serializer = new ProductsSerializer(res.getHeader(headersEnum.CONTENT_TYPE))
+  res.send(serializer.serialize(products));
 });
 
 router.post("/", async (req, res) => {
@@ -28,7 +31,15 @@ router.get("/:idProduto", async (req, res, next) => {
     const id = req.params.idProduto
     const product = new Product({ id })
     await product.load()
-    res.send(JSON.stringify(product))
+    const serializer = new ProductsSerializer(res.getHeader(headersEnum.CONTENT_TYPE))
+    serializer.addPublicFields([
+      "estoque",
+      "idFornecedor",
+      "data_criacao",
+      "data_atualizacao",
+      "versao",
+    ])
+    res.send(serializer.serialize(product))
   } catch (error) {
     next(error)
   }
