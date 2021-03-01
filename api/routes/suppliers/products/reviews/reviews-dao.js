@@ -8,7 +8,8 @@ class ReviewDAO {
     index(productId) {
         return this.model.findAll({
             raw: true,
-            where: { idProduto:  productId }
+            where: { idProduto:  productId },
+            order: [["data_criacao", 'DESC']]
         })
     }
 
