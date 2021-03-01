@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const instance = require("../../../database");
 const suppliersTableModel = require("../table-model")
+const reviewsModel = require("./reviews/review-model")
 
 const columns = {
   titulo: {
@@ -23,7 +24,7 @@ const columns = {
         model: suppliersTableModel,
         key: "id"
     }
-  }
+  },
 };
 
 const options = {
@@ -34,5 +35,8 @@ const options = {
   updatedAt: "data_atualizacao",
   version: "versao",
 };
-
-module.exports = instance.define("produto", columns, options);
+const model = instance.define("produto", columns, options)
+model.hasMany(reviewsModel, {
+  foreignKey: "idProduto",
+})
+module.exports = model

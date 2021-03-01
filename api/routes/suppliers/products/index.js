@@ -23,6 +23,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/:idProduto", async (req, res, next) => {
+  try {
+    const id = req.params.idProduto
+    const product = new Product({ id })
+    await product.load()
+    res.send(JSON.stringify(product))
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.use("/:idProduto/avaliacoes", reviewRoutes)
 
 module.exports = router;
