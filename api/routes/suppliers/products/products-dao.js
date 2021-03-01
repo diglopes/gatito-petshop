@@ -46,6 +46,15 @@ class ProductsDAO {
       ...reviewsAggregation
     })
   }
+
+  remove(id, supplierId){
+    return this.model.destroy({
+      where: {
+        id,
+        idFornecedor: supplierId
+      }
+    })
+  }
 }
 
 module.exports = ProductsDAO;

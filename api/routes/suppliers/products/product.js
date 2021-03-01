@@ -35,6 +35,10 @@ class Product {
         const result = await productDAO.findById(this.id)
         Object.assign(this, result.dataValues)
     }
+
+    async remove() {
+        return productDAO.remove(this.id, this.idFornecedor)
+    }
 }
 
 module.exports = Product

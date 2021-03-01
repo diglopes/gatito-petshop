@@ -45,6 +45,14 @@ router.get("/:idProduto", async (req, res, next) => {
   }
 })
 
+router.delete("/:idProduto", async (req, res) => {
+  const { idProduto: id, idFornecedor } = req.params
+  const product = new Product({ id, idFornecedor})
+  await product.remove()
+  res.status(204)
+  res.end()
+})
+
 router.use("/:idProduto/avaliacoes", reviewRoutes)
 
 module.exports = router;
