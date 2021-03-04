@@ -32,7 +32,7 @@ class Supplier {
 
   async load() {
     const result = await suppliersTable.findById(this.id)
-    Object.assign(this, result.dataValues)
+    Object.assign(this, result)
   }
 
   async update() {

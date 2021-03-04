@@ -11,7 +11,7 @@ module.exports = {
     },
 
     async findById(id) {
-       const supplierFound = await Model.findOne({ where: { id } })
+       const supplierFound = await Model.findOne({ where: { id }, raw: true })
        if(!supplierFound) throw new NotFoundError("fornecedores", id)
        
        return supplierFound
