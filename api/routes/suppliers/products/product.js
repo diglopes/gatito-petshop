@@ -43,12 +43,12 @@ class Product {
         this._validate()
         const { titulo, preco, idFornecedor, estoque } = this
         const result = await productDAO.create({ titulo, preco, idFornecedor, estoque})
-        Object.assign(this, result.dataValues)
+        Object.assign(this, result)
     }
 
     async load() {
-        const result = await productDAO.findById(this.id)
-        Object.assign(this, result.dataValues)
+        const result = await productDAO.findById(this.id, this.idFornecedor)
+        Object.assign(this, result)
     }
 
     async remove() {

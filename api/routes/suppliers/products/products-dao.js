@@ -1,6 +1,7 @@
 const Model = require("./product-model");
 const ReviewModel = require("./reviews/review-model")
 const Sequelize = require("sequelize")
+const NotFoundError = require("../../../errors/not-found")
 
 const reviewsAggregation = {
   attributes: [
@@ -39,12 +40,15 @@ class ProductsDAO {
     return this.model.create(newProduct)
   }
 
-  findById(id) {
-    return this.model.findOne({ 
-      where: { id },
+  async findById(id, supplierId) {
+    const product = await this.model.findOne({ 
+      where: { id, idFornecedor: supplierId },
       group: ["produto.id"],
-      ...reviewsAggregation
+      ...reviewsAggregation,
+      raw: true
     })
+    if(!product) throw new NotFoundError("Produtos", id)
+    return product
   }
 
   remove(id, supplierId){

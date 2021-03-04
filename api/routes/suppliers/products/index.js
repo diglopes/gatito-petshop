@@ -28,8 +28,8 @@ router.post("/", async (req, res, next) => {
 
 router.get("/:idProduto", async (req, res, next) => {
   try {
-    const id = req.params.idProduto
-    const product = new Product({ id })
+    const { idProduto: id, idFornecedor } = req.params
+    const product = new Product({ id, idFornecedor })
     await product.load()
     const serializer = new ProductsSerializer(res.getHeader(headersEnum.CONTENT_TYPE))
     serializer.addPublicFields([
