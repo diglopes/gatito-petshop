@@ -28,7 +28,7 @@ class Review {
     async create() {
         const { titulo, descricao, nota, idProduto } = this
         const result = await reviewDao.create({ titulo, descricao, nota, idProduto})
-        Object.assign(this, result.dataValues)
+        Object.assign(this, result)
     }
 }
 

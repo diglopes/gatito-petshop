@@ -8,6 +8,7 @@ module.exports = {
 
     create(newSupplier = {}) {
         return Model.create(newSupplier)
+            .then(entity => entity.get({ plain: true }))
     },
 
     async findById(id) {
