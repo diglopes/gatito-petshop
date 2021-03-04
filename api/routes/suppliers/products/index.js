@@ -19,8 +19,16 @@ router.post("/", async (req, res, next) => {
     const { estoque = 0, preco, titulo } = req.body
     const product = new Product({ idFornecedor: supplierId, estoque, preco, titulo })
     await product.create()
+    const serializer = new ProductsSerializer(res.getHeader(headersEnum.CONTENT_TYPE))
+    serializer.addPublicFields([
+      "estoque",
+      "idFornecedor",
+      "data_criacao",
+      "data_atualizacao",
+      "versao",
+    ])
     res.status(201)
-    res.send(JSON.stringify(product))
+    res.send(serializer.serialize(product))
   } catch (error) {
     next(error);
   }

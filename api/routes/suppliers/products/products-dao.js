@@ -38,6 +38,7 @@ class ProductsDAO {
 
   create(newProduct = {}) {
     return this.model.create(newProduct)
+      .then(entity => entity.get({ plain: true }))
   }
 
   async findById(id, supplierId) {
