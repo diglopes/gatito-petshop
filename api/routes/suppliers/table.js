@@ -12,7 +12,7 @@ module.exports = {
 
     async findById(id) {
        const supplierFound = await Model.findOne({ where: { id } })
-       if(!supplierFound) throw new NotFoundError(id)
+       if(!supplierFound) throw new NotFoundError("fornecedores", id)
        
        return supplierFound
     },

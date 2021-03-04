@@ -4,6 +4,8 @@ const Supplier = require("./supplier");
 const SuppliersSerializer = require("../../utils/response/suppliers-serializer");
 const headersEnum = require("../../utils/headers-enum");
 const productRoutes = require("./products")
+const verifySupplier = require("../../middlewares/verify-supplier")
+
 
 router.get("/", async (req, res) => {
   const result = await suppliersTable.index();
@@ -72,6 +74,6 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
-router.use('/:idFornecedor/produtos', productRoutes)
+router.use('/:idFornecedor/produtos', verifySupplier, productRoutes)
 
 module.exports = router;
