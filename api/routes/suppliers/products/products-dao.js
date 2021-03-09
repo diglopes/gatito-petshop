@@ -52,6 +52,15 @@ class ProductsDAO {
     return product
   }
 
+  update({ id, supplierId }, data) {
+    return this.model.update(data, {
+      where: {
+        id,
+        idFornecedor: supplierId
+      }
+    })
+  }
+
   remove(id, supplierId){
     return this.model.destroy({
       where: {
