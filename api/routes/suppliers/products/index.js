@@ -4,6 +4,7 @@ const Product = require("./product");
 const reviewRoutes = require("./reviews");
 const ProductsSerializer = require("../../../utils/response/products-serializer");
 const headersEnum = require("../../../utils/headers-enum");
+const { route } = require("./reviews");
 
 router.get("/", async (req, res) => {
   const supplierId = req.params.idFornecedor;
@@ -70,6 +71,20 @@ router.put("/:idProduto", async (req, res, next) => {
     })
     const product = new Product(data)
     await product.update()
+    res.status(204)
+    res.end()
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post("/:idProduto/diminuir-estoque", async (req, res, next) => {
+  try {
+    const { idProduto: id, idFornecedor } = req.params
+    const product = new Product({ id, idFornecedor })
+    await product.load()
+    product.estoque -= req.body.quantidade 
+    await product.decreaseStock()
     res.status(204)
     res.end()
   } catch (error) {

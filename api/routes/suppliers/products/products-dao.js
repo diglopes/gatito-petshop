@@ -2,6 +2,7 @@ const Model = require("./product-model");
 const ReviewModel = require("./reviews/review-model")
 const Sequelize = require("sequelize")
 const NotFoundError = require("../../../errors/not-found")
+const instance = require("../../../database/index")
 
 const reviewsAggregation = {
   attributes: [
@@ -68,6 +69,18 @@ class ProductsDAO {
         idFornecedor: supplierId
       }
     })
+  }
+
+  subtract(id, supplierId, field, amount) {
+    return instance.transaction(async transaction => {
+        const product = await this.model.findOne({
+          where: { id, idFornecedor: supplierId }
+        })
+        product[field] = amount
+        await product.save()
+        return product
+    })
+
   }
 }
 
