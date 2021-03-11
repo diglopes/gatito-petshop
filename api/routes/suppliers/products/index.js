@@ -4,7 +4,6 @@ const Product = require("./product");
 const reviewRoutes = require("./reviews");
 const ProductsSerializer = require("../../../utils/response/products-serializer");
 const headersEnum = require("../../../utils/headers-enum");
-const { route } = require("./reviews");
 
 router.get("/", async (req, res) => {
   const supplierId = req.params.idFornecedor;
@@ -34,6 +33,22 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/estoque-baixo", async (req, res, next) => {
+  try {
+    const { idFornecedor } = req.params
+    const dao = new ProductsDAO();
+    const serializer = new ProductsSerializer(res.getHeader(headersEnum.CONTENT_TYPE))
+    const minimumAmount = 5
+    const products = await dao.lowStock(idFornecedor, minimumAmount)
+    serializer.addPublicFields([
+      "estoque",
+    ])
+    res.send(serializer.serialize(products))
+  } catch (error) {
+    next(error)
+  }
+})
 
 router.get("/:idProduto", async (req, res, next) => {
   try {
