@@ -9,6 +9,10 @@ const app = express();
 
 app.use(express.json());
 app.use(contentTypeValidator)
+app.use((_, res, next) => {
+    res.set("X-Powered-By", "Gatito")
+    next()
+})
 app.use("/api/fornecedores", suppliersRoutes);
 app.use("/api/franquias", franchisesRoutes);
 app.use(errorHandler);
