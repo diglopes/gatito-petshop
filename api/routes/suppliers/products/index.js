@@ -27,6 +27,11 @@ router.post("/", async (req, res, next) => {
       "data_atualizacao",
       "versao",
     ])
+    res.set("ETag", product.versao)
+    const lastModofiedTimestamp = new Date(product.data_atualizacao).getTime()
+    res.set("Last-Modified", lastModofiedTimestamp)
+    const locationUrl = `/api/fornecedores/${product.idFornecedor}/produtos/${product.id}`
+    res.set("Location", locationUrl)
     res.status(201)
     res.send(serializer.serialize(product))
   } catch (error) {
@@ -63,6 +68,9 @@ router.get("/:idProduto", async (req, res, next) => {
       "data_atualizacao",
       "versao",
     ])
+    res.set("ETag", product.versao)
+    const lastModofiedTimestamp = new Date(product.data_atualizacao).getTime()
+    res.set("Last-Modified", lastModofiedTimestamp)
     res.send(serializer.serialize(product))
   } catch (error) {
     next(error)
@@ -86,6 +94,10 @@ router.put("/:idProduto", async (req, res, next) => {
     })
     const product = new Product(data)
     await product.update()
+    await product.load()
+    res.set("ETag", product.versao)
+    const lastModofiedTimestamp = new Date(product.data_atualizacao).getTime()
+    res.set("Last-Modified", lastModofiedTimestamp)
     res.status(204)
     res.end()
   } catch (error) {
@@ -100,6 +112,10 @@ router.post("/:idProduto/diminuir-estoque", async (req, res, next) => {
     await product.load()
     product.estoque -= req.body.quantidade 
     await product.decreaseStock()
+    await product.load()
+    res.set("ETag", product.versao)
+    const lastModofiedTimestamp = new Date(product.data_atualizacao).getTime()
+    res.set("Last-Modified", lastModofiedTimestamp)
     res.status(204)
     res.end()
   } catch (error) {
