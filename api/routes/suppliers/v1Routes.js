@@ -24,6 +24,7 @@ router.post("/", async (req, res, next) => {
     const serializer = new SuppliersSerializer(
       res.getHeader(headersEnum.CONTENT_TYPE)
     );
+    serializer.addPublicFields(["empresa", "categoria"])
     res.status(201);
     res.send(serializer.serialize(supplier));
   } catch (error) {
