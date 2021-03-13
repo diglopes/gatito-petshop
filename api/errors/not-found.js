@@ -1,6 +1,6 @@
 class NotFoundError extends Error {
-    constructor(id) {
-        const idMsg = id ? ` de id '${id}' ` : ' '
+    constructor(resourceName, id) {
+        const idMsg = id ? ` '${resourceName}' de id '${id}' ` : ' '
         const msg = `Recurso${idMsg}não encontrado`
         super(msg)
         this.name = 'NotFoundError'

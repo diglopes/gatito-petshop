@@ -27,12 +27,12 @@ class Supplier {
     this._validate()
     const { empresa, categoria, email } = this
     const result = await suppliersTable.create({ empresa, categoria, email });
-    Object.assign(this, result.dataValues)
+    Object.assign(this, result)
   }
 
   async load() {
     const result = await suppliersTable.findById(this.id)
-    Object.assign(this, result.dataValues)
+    Object.assign(this, result)
   }
 
   async update() {

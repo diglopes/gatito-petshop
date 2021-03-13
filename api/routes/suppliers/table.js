@@ -8,11 +8,12 @@ module.exports = {
 
     create(newSupplier = {}) {
         return Model.create(newSupplier)
+            .then(entity => entity.get({ plain: true }))
     },
 
     async findById(id) {
-       const supplierFound = await Model.findOne({ where: { id } })
-       if(!supplierFound) throw new NotFoundError(id)
+       const supplierFound = await Model.findOne({ where: { id }, raw: true })
+       if(!supplierFound) throw new NotFoundError("fornecedores", id)
        
        return supplierFound
     },
