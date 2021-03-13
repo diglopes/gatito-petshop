@@ -4,10 +4,12 @@ const suppliersRoutes = require("./routes/suppliers");
 const franchisesRoutes = require("./routes/franchises");
 const errorHandler = require("./middlewares/error-handler");
 const contentTypeValidator = require("./middlewares/content-type-validator");
+const cors = require("cors")
 
 const app = express();
 
 app.use(express.json());
+app.use(cors())
 app.use(contentTypeValidator)
 app.use((_, res, next) => {
     res.set("X-Powered-By", "Gatito")
