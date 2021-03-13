@@ -77,6 +77,20 @@ router.get("/:idProduto", async (req, res, next) => {
   }
 })
 
+router.head("/:idProduto", async (req, res, next) => {
+  try {
+    const { idProduto: id, idFornecedor } = req.params
+    const product = new Product({ id, idFornecedor })
+    await product.load()
+    res.set("ETag", product.versao)
+    const lastModofiedTimestamp = new Date(product.data_atualizacao).getTime()
+    res.set("Last-Modified", lastModofiedTimestamp)
+    res.end()
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.delete("/:idProduto", async (req, res) => {
   const { idProduto: id, idFornecedor } = req.params
   const product = new Product({ id, idFornecedor})
